@@ -15,6 +15,8 @@
 								<div class="row">
 
 
+									<% if(result[1][0]) { %>
+
 <% for(i=0;i<result[1].length;i++) { %>
 
 									<div class="col-md-4 col-sm-6">
@@ -42,7 +44,7 @@
 												</div><!-- /.box-content -->
 												<div class="box-bottom">
 													<div class="btn-add-cart">
-														<a id="addToCart"  booking_id="<%=result[1][0].id%>" price="<%=result[1][0].net_amount%>" categoryid = '<%=result[1][0].categoryid%>' vendorid = '<%=result[1][0].vendorid%>'>
+														<a id="addToCart"  booking_id="<%=result[1][i].id%>" price="<%=result[1][i].net_amount%>" categoryid = '<%=result[1][i].categoryid%>' vendorid = '<%=result[1][i].vendorid%>'>
 															<img src="images/icons/add-cart.png" alt="">Add to Cart
 														</a>
 													</div>
@@ -54,6 +56,17 @@
 							
                                     <% } %>
 									
+
+									<% } else { %>
+										<div class="col-lg-4"></div>
+										<div class="col-lg-4">
+											<img src='https://i.pinimg.com/originals/89/39/06/893906d9df7228cc36e1b3679a0d1dac.png' style="text-align: center;justify-content: center;">
+				
+										</div>
+										<div class="col-lg-4"></div>
+
+
+										<% } %>
 									
 								</div><!-- /.row -->
 							</div><!-- /.wrap-imagebox -->
@@ -130,8 +143,7 @@
 
 			$('#addToCart').click(function(){
 			
-				// id="<%=result[1][0].id%>" price="<%=result[1][0].net_amount%>" categoryid = '<%=result[1][0].categoryid%>' vendorid = '<%=result[1][0].vendorid%>' 
-				let quantity = '1'
+					let quantity = '1'
 				let booking_id = $(this).attr('booking_id');
 				let price = $(this).attr('price');
 				let oneprice = $(this).attr('price');
