@@ -93,13 +93,14 @@ router.get('/mycart',(req,res)=>{
     var query = `select * from category order by id desc;`
     var query1 = `select c.* , 
     (select p.name from products p where p.id = c.booking_id) as bookingname
-     from cart c where c.number = '${req.session.usernumber}';`
-   var query2 = `select sum(price) as totalprice from cart where number = '${req.session.usernumber}';`              
+     from cart c where c.number = '${req.session.ipaddress}';`
+   var query2 = `select sum(price) as totalprice from cart where number = '${req.session.ipaddress}';`              
 
     pool.query(query+query1+query2,(err,result)=>{
       if(err) throw err;
       else{
-       res.render('cart', { title: 'Express',login:'true',result });
+        res.render('cart', { title: 'Express',login:'true',result });
+     // res.json(result)
    
       }
    
@@ -118,8 +119,11 @@ router.post('/add-to-cart',(req,res)=>{
   let body = req.body
   console.log('data',req.body)
   console.log(req.session.usernumber)
+  console.log(req.session.ipaddress)
+
   if(req.session.usernumber || req.session.usernumber!= undefined){
 
+    console.log('dgdhsfdghfghf')
 
 if(req.body.quantity=='0' || req.body.quantity==0){
   pool.query(`delete from cart where booking_id = '${req.body.booking_id}' and number = '${req.session.usernumber}'`,(err,result)=>{
@@ -192,7 +196,7 @@ else{
 
     else {
       body['number'] = req.session.ipaddress;
-      pool.query(`select * from cart where booking_id = '${req.body.booking_id}' and number = '${req.session.usernumber}`,(err,result)=>{
+      pool.query(`select * from cart where booking_id = '${req.body.booking_id}' and number = '${req.session.ipaddress}'`,(err,result)=>{
         if(err) throw err;
         else if(result[0]) {
             pool.query(`update cart set quantity =  ${req.body.quantity} , price = ${result[0].oneprice}*${req.body.quantity} where booking_id = '${req.body.booking_id}' and number = '${req.session.ipaddress}' `,(err,result)=>{
